@@ -1,6 +1,15 @@
--- 적재 검증: DB 행 수가 원본 XES의 <trace>/<event> 개수와 같은가
--- 기대값 (Zenodo 17295283): cases 217,406 / events 1,214,244
--- 결과 (2026-10-12): 일치 ✅  → notes/data_understanding.md 4절
+-- ============================================================
+-- 01. 적재 검증: 원본 파일에서 DB로 옮길 때 빠진 게 없나?
+-- ============================================================
+-- 질문    : 원본 파일(XES)의 건수와 DB 테이블의 행 수가 같은가?
+-- 왜 하나 : 여기서 숫자가 다르면 뒤의 모든 분석이 틀린 데이터 위에 서게 된다.
+--           적재가 끝나면 반드시 하는 첫 번째 확인.
+-- 기대값  : cases 217,406 (품목 수) / events 1,214,244 (활동 수)
+--           ← 원본 XES에서 <trace>, <event> 태그를 센 값
+-- 결과    : 2026-10-12 일치 ✅ → notes/data_understanding.md 4절
+-- 읽는 법 : 두 숫자가 기대값과 "정확히" 같으면 통과. 하나라도 다르면 src/load.py 점검.
+-- ============================================================
+
 SELECT
-    (SELECT count(*) FROM cases)  AS cases_rows,
-    (SELECT count(*) FROM events) AS events_rows;
+    (SELECT count(*) FROM cases)  AS cases_rows,   -- 품목(케이스) 테이블의 행 수
+    (SELECT count(*) FROM events) AS events_rows;  -- 활동(이벤트) 테이블의 행 수

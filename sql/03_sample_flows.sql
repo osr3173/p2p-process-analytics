@@ -1,6 +1,16 @@
--- 품목 10건의 활동 흐름(variant) 맛보기 → notes/data_understanding.md 2절
-SELECT case_id,
-       string_agg(activity, ' → ' ORDER BY ts) AS flow
+-- ============================================================
+-- 03. 품목 10건의 흐름 보기: 한 품목이 어떤 순서로 처리되나?
+-- ============================================================
+-- 질문    : 품목 하나가 "주문 → 물건 도착 → 청구서 → 지급"을 실제로 어떤 순서로 거치나?
+-- 왜 하나 : 정상적인 흐름이 어떻게 생겼는지 알아야 비정상이 보인다.
+--           활동 순서가 똑같은 품목들의 묶음을 variant(변형)라고 부른다.
+-- 결과    : 10건 중 5가지 순서가 나옴. 같은 발주서의 품목은 같은 순서로 움직이는 경우가 많음
+--           → notes/data_understanding.md 2절
+-- 읽는 법 : 한 줄 = 품목 하나. 화살표(→) 순서가 시간 순서다.
+-- ============================================================
+
+SELECT case_id,                                           -- 품목 번호 (발주서번호_줄번호)
+       string_agg(activity, ' → ' ORDER BY ts) AS flow    -- 활동들을 시각(ts) 순으로 화살표로 이어 붙임
 FROM events
-WHERE case_id IN (SELECT case_id FROM cases LIMIT 10)
-GROUP BY case_id;
+WHERE case_id IN (SELECT case_id FROM cases LIMIT 10)     -- 품목 10건만 골라서
+GROUP BY case_id;                                         -- 품목별로 한 줄씩
