@@ -1,0 +1,12 @@
+data/
+.venv/
+__pycache__/
+*.parquet
+
+# 개인 작업 메모 (구직 관련) — 저장소에 올리지 않음
+CLAUDE.md
+HANDOFF_*.md
+
+# 프로젝트 운영·과정 메모 — 로컬 전용 (저장소에는 데이터·분석만)
+PROJECT_BRIEF.md
+notes/LOG.md
